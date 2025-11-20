@@ -12,7 +12,7 @@
 }
 
 .court-image img {
-	width: 90%;
+	width: 50%;
 	max-width: 1000px;
 	height: auto;
 	display: block;
@@ -25,7 +25,6 @@
 .court-image .court-close {
 	position: absolute;
 	top: 10px;
-	right: 10px;
 	background: rgba(0,0,0,0.6);
 	color: white;
 	border: none;
@@ -38,5 +37,39 @@
 @media (max-width: 480px) {
 	.court-image img { width: 96%; border-width: 4px; }
 }
+
+/* Layout: text on left, photo on right */
+.court-layout {
+	display: flex;
+	gap: 1.25rem;
+	align-items: flex-start;
+	max-width: 1100px;
+	margin: 0.75rem auto;
+	padding: 0 1rem;
+}
+.court-left {
+	margin-left: -150px; /* allow left column to grow but stay readable */
+}
+.court-right {
+	flex: 0 0 48%;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+/* Make it stack on small screens */
+@media (max-width: 900px) {
+	.court-layout { flex-direction: column-reverse; }
+	.court-right { width: 100%; }
+	.court-left { width: 100%; }
+}
+
+/* Slight spacing for list paragraphs so they read like buttons */
+.court-left p {
+	margin: 0.4rem 0;
+	line-height: 1.35;
+}
+
+.court-left h3 { margin-top: 0.5rem; }
 
 
