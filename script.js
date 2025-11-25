@@ -15,7 +15,7 @@ function getCourtElements() {
 }
 
 // Show the court. Optionally set a new image source and alt text first.
-function showCourt(src, alt) {
+function showCourt(src, alt, desc) {
 	var parts = getCourtElements();
 	if (!parts.wrapper) return;
 	if (parts.img && src) {
@@ -23,6 +23,11 @@ function showCourt(src, alt) {
 	}
 	if (parts.img && typeof alt === 'string') {
 		parts.img.alt = alt;
+	}
+	// Update caption/description under the image if present (caption now lives outside the image wrapper)
+	var caption = document.querySelector('.court-caption');
+	if (caption) {
+		caption.textContent = desc || '';
 	}
 	parts.wrapper.classList.add('show');
 }
@@ -61,70 +66,125 @@ function ensureCloseButton() {
 
 // Attach handlers to specific text elements instead of listening globally.
 // This is simpler for beginners to understand and avoids catching unrelated clicks.
+// Attach handlers to the real menu buttons and left-column buttons only.
 document.addEventListener('DOMContentLoaded', function () {
 	var parts = getCourtElements();
+	if (!parts.wrapper) return;
 
-	// If there's no court on the page, stop now.
-	if (!parts.wrapper || !parts.img) return;
-
-	// Ensure the close button exists so users can hide the court.
-	ensureCloseButton();
-
-	// Choose which text elements should act like buttons.
-	// You can change this selector to be more specific if you like.
-	var selector = 'h1,h2,h3,h4,h5,h6,p,li,span';
-	var nodes = document.querySelectorAll(selector);
-
-	for (var i = 0; i < nodes.length; i++) {
-		var el = nodes[i];
-		// Skip anything inside the court itself.
-		if (el.closest && el.closest('.court-image')) continue;
-		// Skip empty text nodes or elements with no visible text.
-		var text = (el.innerText || '').trim();
-		if (!text) continue;
-
-		// If element is not a link, make it keyboard-focusable and announce as a button.
-		if (el.tagName.toLowerCase() !== 'a') {
-			el.setAttribute('role', 'button');
-			el.setAttribute('tabindex', '0');
-		}
-
-		// Click handler: show court. If the element has a position class, show that position's diagram.
-		el.addEventListener('click', function (ev) {
-			var target = ev.currentTarget;
-			// If the element has a `data-court` attribute, use that filename.
-			var data = target.getAttribute('data-court');
-			if (data) {
-				showCourt(data, target.getAttribute('data-alt') || 'Court diagram');
-			} else if (target.classList && target.classList.contains('pg')) {
-				showCourt('basketballcourtPG.png', 'Point Guard court diagram');
-			} else if (target.classList && target.classList.contains('sg')) {
-				showCourt('basketballcourtSG.png', 'Shooting Guard court diagram');
-			} else if (target.classList && target.classList.contains('sf')) {
-				showCourt('basketballcourtSF.png', 'Small Forward court diagram');
-			} else if (target.classList && target.classList.contains('pf')) {
-				showCourt('basketballcourtPF.png', 'Power Forward court diagram');
-			} else if (target.classList && target.classList.contains('c')) {
-				showCourt('basketballcourtC.png', 'Center court diagram');
-			} else {
-				// default image
-				showCourt('basketballcourt.png', 'Basketball court diagram showing court lines and markings');
+	// Preload helper: load images into memory so clicks show instantly.
+	function preloadImages(list) {
+		for (var j = 0; j < list.length; j++) {
+			try {
+				var im = new Image();
+				im.src = list[j];
+			} catch (err) {
+				console.warn('Preload failed for', list[j], err);
 			}
-			// After showing, move focus to the close button so keyboard users can close.
-			var cb = parts.wrapper.querySelector('.court-close');
-			if (cb) cb.focus();
-		});
+		}
+	}
 
-		// Keyboard activation: Enter or Space acts like a click.
-		el.addEventListener('keydown', function (ev) {
-			if (ev.key === 'Enter' || ev.key === ' ') {
-				ev.preventDefault();
-				ev.currentTarget.click();
+	// Build list of images to preload: start with common files and add any data-court values found on buttons.
+	var preloadList = [
+		'basketballcourt.png',
+		'basketballcourtPG.png',
+		'basketballcourtSG.png',
+		'basketballcourtSF.png',
+		'basketballcourtPF.png',
+		'basketballcourtC.png',
+		'offensivebasketballcourt.png',
+		// defensive file has an existing typo in repo; include both names so load succeeds regardless
+		'defensivebasketballcourt.png',
+		'defensivebaketballcourt.png'
+	];
+	// Add any data-court attributes from buttons to the preload list
+	var btnsForPre = document.querySelectorAll('button.menu-btn, .court-left button');
+	for (var bi = 0; bi < btnsForPre.length; bi++) {
+		var v = btnsForPre[bi].getAttribute('data-court');
+		if (v && preloadList.indexOf(v) === -1) preloadList.push(v);
+	}
+	preloadImages(preloadList);
+
+	// Ensure a single <img> exists inside the wrapper for swapping sources.
+	if (!parts.img) {
+		var created = document.createElement('img');
+		created.alt = 'Basketball court diagram';
+		parts.wrapper.appendChild(created);
+		parts = getCourtElements();
+	}
+
+	// Add basic onerror fallback so a mistyped filename won't leave the user confused.
+	if (parts.img) {
+		parts.img.addEventListener('error', function () {
+			var src = parts.img.getAttribute('src') || '';
+			// Try the known typo filename for defensive image if the correct name was used.
+			if (src.indexOf('defensivebasketballcourt.png') !== -1) {
+				parts.img.src = 'defensivebaketballcourt.png';
+			} else {
+				console.warn('Image failed to load:', src);
 			}
 		});
 	}
 
-	// Global keyboard: Escape hides the court.
+	ensureCloseButton();
+
+	// Select the explicit menu buttons and any left-column buttons (we added these in HTML).
+	var buttons = document.querySelectorAll('button.menu-btn, .court-left button');
+
+	for (var i = 0; i < buttons.length; i++) {
+		(function (btn) {
+			btn.addEventListener('click', function (ev) {
+				ev.preventDefault();
+				// Use data-court when present (preferred).
+				var file = btn.getAttribute('data-court');
+				var alt = btn.getAttribute('data-alt') || btn.innerText || 'Court diagram';
+
+				// description: prefer explicit data-desc, otherwise supply a short text per button class
+				var desc = btn.getAttribute('data-desc') || '';
+
+				// Fallback mapping by class name if no data-court provided.
+				if (!file) {
+					if (btn.classList.contains('pg')) {
+						file = 'basketballcourtPG.png';
+						if (!desc) desc = 'Point Guard (PG) typically handles the ball, directs the offense, and creates scoring opportunities.';
+					} else if (btn.classList.contains('sg')) {
+						file = 'basketballcourtSG.png';
+						if (!desc) desc = 'Shooting Guard (SG) is usually a strong shooter and secondary ball-handler.';
+					} else if (btn.classList.contains('sf')) {
+						file = 'basketballcourtSF.png';
+						if (!desc) desc = 'Small Forward (SF) is versatile — can score, defend, and rebound.';
+					} else if (btn.classList.contains('pf')) {
+						file = 'basketballcourtPF.png';
+						if (!desc) desc = 'Power Forward (PF) plays near the basket, rebounds, and defends the paint.';
+					} else if (btn.classList.contains('c')) {
+						file = 'basketballcourtC.png';
+						if (!desc) desc = 'Center (C) anchors the defense, blocks shots, and scores near the rim.';
+					} else if (btn.classList.contains('offensivecourt')) {
+						file = 'offensivebasketballcourt.png';
+						if (!desc) desc = 'Offensive court highlights areas used for scoring, including the three-point line and the paint.';
+					} else if (btn.classList.contains('defensivecourt')) {
+						file = 'defensivebasketballcourt.png';
+						if (!desc) desc = 'Defensive court focuses on positioning and areas to prevent the opponent from scoring.';
+					} else {
+						file = 'basketballcourt.png';
+					}
+				}
+
+				showCourt(file, alt, desc);
+				var cb = parts.wrapper.querySelector('.court-close');
+				if (cb) cb.focus();
+			});
+
+			// Buttons already handle keyboard (Enter/Space), but keep a handler in case of non-button elements.
+			btn.addEventListener('keydown', function (ev) {
+				if (ev.key === 'Enter' || ev.key === ' ') {
+					ev.preventDefault();
+					btn.click();
+				}
+			});
+		})(buttons[i]);
+	}
+
+	// Allow Escape to hide the court.
 	document.addEventListener('keydown', function (ev) {
 		if (ev.key === 'Escape') hideCourt();
 	});

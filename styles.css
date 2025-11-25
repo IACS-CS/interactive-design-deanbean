@@ -10,16 +10,90 @@
 .court-image.show {
 	display: flex;
 }
+.description{
+	display: none; 
+}
+.offensivecourtdescription {
+	display: none;
+}
+.defensivecourtdescription {
+	display: none;
+}
+.sixthdescription {
+	display: none;
+}
+
+.pgdescription {
+	display: none;
+}
+.sgdescription {
+	display: none;
+}
+.sfdescription {
+	display: none;
+}
+.pfdescription {
+	display: none;
+}
+.cdescription {
+	display: none;
+}
 
 .court-image img {
-	width: 50%;
-	max-width: 1000px;
+	/* Make the image fill the right column but cap its width so it stays readable */
+	width: 100%;
+	max-width: 1200px; /* allow much larger images */
 	height: auto;
 	display: block;
 	border-radius: 8px;
 	box-shadow: 0 8px 20px rgba(30,30,30,0.18);
 	border: 6px solid rgba(255,255,255,0.85);
 	background: #f6f0e6;
+}
+
+/* media container: image on left, description box on right */
+.court-media {
+	display: flex;
+	gap: 1.6rem; /* larger gap so description sits farther from image */
+	align-items: flex-start;
+	width: 100%;
+	justify-content: center;
+}
+
+.court-image {
+	/* when visible (.show) this becomes a flex container and centers the image */
+	display: none; /* kept hidden by default via .show class */
+	justify-content: center;
+	align-items: center;
+	flex: 1 1 80%; /* give the image column more room */
+}
+
+.court-image.show {
+	display: flex;
+}
+
+.court-desc {
+	flex: 0 0 420px; /* wider description box */
+	background: #ffffff;
+	border: 1px solid rgba(30,40,60,0.06);
+	padding: 1.1rem; /* more breathing room */
+	border-radius: 10px;
+	box-shadow: 0 6px 20px rgba(20,30,60,0.04);
+}
+
+.court-desc .court-caption {
+	margin: 0;
+}
+
+@media (max-width: 900px) {
+	.court-media { flex-direction: column-reverse; }
+	.court-desc { width: 100%; flex: none; }
+	.court-image { width: 100%; }
+}
+
+/* Make the image itself larger within its column */
+.court-image img {
+	max-width: 1000px; /* increase maximum visual size */
 }
 
 .court-image .court-close {
@@ -47,14 +121,22 @@
 	margin: 0.75rem auto;
 	padding: 0 1rem;
 }
-.court-left {
-	margin-left: -150px; /* allow left column to grow but stay readable */
+.court-desc {
+	flex: 0 0 520px; /* wider description box */
+	background: #ffffff;
+	border: 1px solid rgba(30,40,60,0.06);
+	padding: 1.2rem; /* more breathing room */
+	border-radius: 10px;
+	box-shadow: 0 6px 20px rgba(20,30,60,0.04);
 }
-.court-right {
-	flex: 0 0 48%;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
+/* Caption / description below the image */
+.court-caption {
+	margin-top: 0.6rem;
+	color: #2b3a4a;
+	font-size: 0.95rem;
+	line-height: 1.3;
+	max-width: 700px;
+	text-align: left;
 }
 
 /* Make it stack on small screens */
@@ -71,5 +153,73 @@
 }
 
 .court-left h3 { margin-top: 0.5rem; }
+
+/* ---- Left-side menu styling ---- */
+.court-left {
+	background: linear-gradient(180deg, #ffffff, #fbfbfe);
+	border: 1px solid rgba(30,30,60,0.06);
+	padding: 1rem;
+	border-radius: 12px;
+	box-shadow: 0 6px 20px rgba(20,30,60,0.04);
+}
+
+/* Group headers inside the menu */
+.court-left h2, .court-left h3 {
+	margin: 0 0 0.5rem 0;
+	color: #20304a;
+}
+
+/* Make all left-column buttons look like menu items */
+.court-left button {
+	display: block;             /* stack vertically */
+	width: 100%;
+	text-align: left;
+	padding: 0.65rem 0.9rem;
+	margin: 0.4rem 0;
+	background: #fff;
+	border: 1px solid #e6e9f2;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 0.98rem;
+	color: #14233a;
+	transition: background 120ms ease, transform 80ms ease, box-shadow 120ms ease;
+	box-shadow: 0 2px 6px rgba(20,30,60,0.03);
+}
+
+.court-left button:hover {
+	background: #f4f8ff;
+	transform: translateY(-1px);
+	border-color: #cfe0ff;
+}
+
+.court-left button:active { transform: translateY(0); }
+
+.court-left button:focus {
+	outline: none;
+	box-shadow: 0 6px 18px rgba(60,110,240,0.14);
+	border-color: #7fa7ff;
+}
+
+/* smaller muted description text inside menu if present */
+.court-left .menu-intro {
+	font-size: 0.95rem;
+	color: #4b596b;
+	margin-bottom: 0.6rem;
+}
+
+/* visually separate groups (positions vs rules) */
+.court-left spots, .court-left rules {
+	margin-top: 0.6rem;
+	padding-top: 0.6rem;
+	border-top: 1px dashed rgba(30,40,60,0.04);
+}
+
+/* When stacked on small screens keep spacing comfortable */
+@media (max-width: 900px) {
+	.court-left { padding: 0.75rem; border-radius: 8px; }
+	.court-left button { font-size: 1rem; padding: 0.65rem 0.8rem; }
+}
+
+/* End left-side menu styling */
 
 

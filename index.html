@@ -19,18 +19,18 @@
       <div class="court-left">
         <court>
           <h2> The court</h2>
-          <p class="offensivecourt"> Offensive Court</p>
-          <p class="defensivecourt"> Defensive Court</p>
+          <button class="offensivecourt">Offensive Court</button>
+          <button class="defensivecourt">Defensive Court</button>
         </court>
 
         <spots>
           <h3> The Positions</h3>
-          <p class="pg"> Point Guard</p>
-          <p class="sg"> Shooting Guard</p>
-          <p class="sf"> Small Forward</p>
-          <p class="pf"> Power Forward</p>
-          <p class="c"> Center</p>
-          <p class="sixth"> Sixth Man</p>
+          <button class="pg"> Point Guard</button>
+          <button class="sg"> Shooting Guard</button>
+          <button class="sf"> Small Forward</button>
+          <button class="pf"> Power Forward</button>
+          <button class="c"> Center</button>
+          <button class="sixth"> Sixth Man</button>
         </spots>
 
         <rules>
@@ -43,10 +43,17 @@
       </div>
 
       <div class="court-right">
-        <div class="court-image">
-          <!-- Single <img> used by the script. The JS will change its `src` when different
-               position diagrams are requested. -->
-          <img src="basketballcourt.png" alt="Basketball court diagram showing court lines and markings" />
+        <!-- media wrapper holds the image and a separate description box to its right -->
+        <div class="court-media">
+          <div class="court-image">
+            <!-- Single <img> used by the script. The JS will change its `src` when different
+                 position diagrams are requested. -->
+            <img src="basketballcourt.png" alt="Basketball court diagram showing court lines and markings" />
+          </div>
+
+          <aside class="court-desc" aria-live="polite">
+            <div class="court-caption"></div>
+          </aside>
         </div>
       </div>
     </div>
