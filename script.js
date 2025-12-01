@@ -73,12 +73,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Preload helper: load images into memory so clicks show instantly.
 	function preloadImages(list) {
+		// keep references so GC doesn't drop them before load/decode
+		if (!window._courtPreloads) window._courtPreloads = [];
+
 		for (var j = 0; j < list.length; j++) {
+			var url = list[j];
+			if (!url) continue;
+
+			// add a <link rel="preload"> to hint the browser to prioritize the image
+			try {
+				var existing = document.querySelector('link[rel="preload"][href="' + url + '"]');
+				if (!existing) {
+					var lk = document.createElement('link');
+					lk.rel = 'preload';
+					lk.as = 'image';
+					lk.href = url;
+					document.head.appendChild(lk);
+				}
+			} catch (err) {
+				// non-fatal
+			}
+
+			// create Image and start loading + decoding when possible
 			try {
 				var im = new Image();
-				im.src = list[j];
+				im.decoding = 'async';
+				im.src = url;
+				window._courtPreloads.push(im);
+				// attempt to decode early (modern browsers support decode())
+				if (im.decode) {
+					im.decode().catch(function () {
+						/* ignore decode errors */
+					});
+				}
 			} catch (err) {
-				console.warn('Preload failed for', list[j], err);
+				console.warn('Preload failed for', url, err);
 			}
 		}
 	}
