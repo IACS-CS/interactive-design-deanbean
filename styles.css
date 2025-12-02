@@ -15,6 +15,13 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Spectral', serif;
 }
 
+/* Container for h1 to hold static border */
+.h1-container {
+	max-width: 1400px;
+	margin: 2rem auto 1.5rem;
+	border-bottom: 3px solid #1a1a1a; /* static line that doesn't move */
+}
+
 /* Light orange background for the page */
 body {
 	background-color: #dfa87f; /* soft light orange that's easy on the eyes */
@@ -33,10 +40,26 @@ body {
 }
 h1 {
 	text-align: center;
-	margin: 2rem auto 1.5rem;
-	max-width: 1400px;
-	padding: 0 2rem;
+	margin: 0;
+	padding: 2rem 2rem 1rem 2rem;
+	/* Slow basketball bounce animation */
+	animation: basketball-bounce 2s ease-in-out infinite;
+	display: inline-block;
+	width: 100%;
 }
+
+/* AI-generated code starts here */
+/* Student prompt was: make it squish at the bottom and go back to normal when it goes back up */
+/* Keyframe animation for basketball bounce with squish at bottom */
+@keyframes basketball-bounce {
+	0%, 100% {
+		transform: translateY(0) scaleY(0.75) scaleX(1.15); /* squished at bottom */
+	}
+	50% {
+		transform: translateY(-30px) scaleY(1) scaleX(1); /* normal shape in air */
+	}
+}
+/* AI-generated code ends here */
 .court-image.show {
 	display: flex;
 }
