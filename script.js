@@ -1,4 +1,3 @@
-
 // AI-generated code starts here
 // Simplified, beginner-friendly script to make on-page text open the court image.
 // Uses simple DOM APIs: querySelector, querySelectorAll, addEventListener, classList.
@@ -218,6 +217,58 @@ document.addEventListener('DOMContentLoaded', function () {
 		if (ev.key === 'Escape') hideCourt();
 	});
 });
+// AI-generated code ends here
+// AI-generated code starts here
+// Student prompt was: make the menu drop down when you hover instead of on click
+// This script handles the dropdown menu functionality on hover.
+document.addEventListener('DOMContentLoaded', function () {
+  // Find all the menu groups (each contains a toggle and its dropdown content).
+  var menuGroups = document.querySelectorAll('.menu-group');
+
+  // Loop through each menu group.
+  for (var i = 0; i < menuGroups.length; i++) {
+    // Add a mouseover event listener to show the dropdown when hovering.
+    menuGroups[i].addEventListener('mouseover', function () {
+      // Find the dropdown toggle inside this menu group
+      var toggle = this.querySelector('.dropdown-toggle');
+      
+      if (toggle) {
+        // Get the ID of the content to show from the 'data-target' attribute.
+        var targetId = toggle.getAttribute('data-target');
+        
+        // Find the dropdown content element using its ID.
+        var targetContent = document.getElementById(targetId);
+
+        // Check if we found the content element.
+        if (targetContent) {
+          // Add the 'show' class to display the dropdown.
+          targetContent.classList.add('show');
+        }
+      }
+    });
+
+    // Add a mouseout event listener to hide the dropdown when no longer hovering.
+    menuGroups[i].addEventListener('mouseout', function () {
+      // Find the dropdown toggle inside this menu group
+      var toggle = this.querySelector('.dropdown-toggle');
+      
+      if (toggle) {
+        // Get the ID of the content to show/hide from the 'data-target' attribute.
+        var targetId = toggle.getAttribute('data-target');
+        
+        // Find the dropdown content element using its ID.
+        var targetContent = document.getElementById(targetId);
+
+        // Check if we found the content element.
+        if (targetContent) {
+          // Remove the 'show' class to hide the dropdown.
+          targetContent.classList.remove('show');
+        }
+      }
+    });
+  }
+});
+// AI-generated code ends here
 
 
 
