@@ -19,8 +19,8 @@ h1, h2, h3, h4, h5, h6 {
 .h1-container {
 	max-width: 1400px;
 	margin: 2rem auto 1.5rem;
-	border-bottom: 3px solid #1a1a1a; /* static line that doesn't move */
-	position: relative; /* allow absolute positioning of border */
+	position: relative;
+	padding-bottom: 0; /* no padding below h1 */
 }
 
 .h1-container::after {
@@ -52,12 +52,12 @@ body {
 h1 {
 	text-align: center;
 	margin: 0;
-	padding: 2rem 2rem 0 2rem; /* removed bottom padding so text sits on line */
+	padding: 2rem 2rem 0 2rem;
 	/* Slow basketball bounce animation */
 	animation: basketball-bounce 2s ease-in-out infinite;
 	display: inline-block;
 	width: 100%;
-	padding-bottom: 0.5rem; /* small space between text and line */
+	line-height: 1; /* tighten line height so text sits closer to bottom */
 }
 
 /* AI-generated code starts here */
@@ -169,7 +169,7 @@ h1 {
 .court-layout {
 	display: flex;
 	gap: 2rem;
-	align-items: flex-start;
+	align-items: center; /* vertically center menu with content */
 	max-width: 1400px;
 	margin: 2rem auto;
 	padding: 0 2rem;
