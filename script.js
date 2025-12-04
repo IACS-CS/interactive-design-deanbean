@@ -17,11 +17,37 @@ function getCourtElements() {
 function showCourt(src, alt, desc) {
 	var parts = getCourtElements();
 	if (!parts.wrapper) return;
-	if (parts.img && src) {
-		parts.img.src = src;
+
+	// AI-generated code starts here
+	// Student prompt was: remove the images for fouls, techs, positoning, and misc
+	// This ensures the description box is visible when an image is shown.
+	var descBox = document.querySelector('.court-desc');
+	if (descBox) {
+		// Ensure description is visible and re-trigger its slide animation on each update
+		descBox.style.display = 'block';
+		try {
+			descBox.style.animation = 'none';
+			descBox.offsetHeight; // force reflow
+			descBox.style.animation = ''; // clear to use CSS rule
+		} catch (e) { /* non-fatal */ }
 	}
-	if (parts.img && typeof alt === 'string') {
-		parts.img.alt = alt;
+	// AI-generated code ends here
+
+	if (parts.img && src) {
+		// AI-generated code starts here
+		// Student prompt: make the animation happen whenever a new button is clicked
+		// Re-trigger the image animation by temporarily turning it off and back on.
+		try {
+			parts.img.style.animation = 'none';            // stop any current animation
+			parts.img.offsetHeight;                        // force reflow so browser applies the change
+			parts.img.style.animation = '';                // clear inline to use CSS class rule
+		} catch (e) { /* non-fatal */ }
+
+		parts.img.src = src;                               // update image source
+		if (typeof alt === 'string') {
+			parts.img.alt = alt;                           // update alt text
+		}
+		// AI-generated code ends here
 	}
 	// Update caption/description under the image if present (caption now lives outside the image wrapper)
 	var caption = document.querySelector('.court-caption');
@@ -162,12 +188,44 @@ document.addEventListener('DOMContentLoaded', function () {
 		(function (btn) {
 			btn.addEventListener('click', function (ev) {
 				ev.preventDefault();
+// AI-generated code starts here
+// Student prompt was: remove the images for fouls, techs, positoning, and misc
+// FIX: Read the description BEFORE using it so rules show text correctly.
+
+				// description: prefer explicit data-desc first
+				var desc = btn.getAttribute('data-desc') || '';
+
+				// Check if the button is one of the rules buttons
+				var isRuleButton = btn.classList.contains('foulrules') ||
+				                   btn.classList.contains('techrules') ||
+				                   btn.classList.contains('positionrules') ||
+				                   btn.classList.contains('miscrules');
+
+				if (isRuleButton) {
+					// For rule buttons, only show the description and hide the image.
+					var caption = document.querySelector('.court-caption');
+					if (caption) {
+						caption.textContent = desc || '';
+					}
+					// Make sure the image container is not shown
+					var parts = getCourtElements();
+					if (parts.wrapper) {
+						parts.wrapper.classList.remove('show');
+					}
+					// Show just the description box
+					var descBox = document.querySelector('.court-desc');
+					if (descBox) {
+						descBox.style.display = 'block';
+					}
+					return; // Stop further execution for these buttons
+				}
+// AI-generated code ends here
+
 				// Use data-court when present (preferred).
 				var file = btn.getAttribute('data-court');
 				var alt = btn.getAttribute('data-alt') || btn.innerText || 'Court diagram';
 
-				// description: prefer explicit data-desc, otherwise supply a short text per button class
-				var desc = btn.getAttribute('data-desc') || '';
+				// For non-rule buttons, we may still need a fallback description below.
 
 				// Fallback mapping by class name if no data-court provided.
 				if (!file) {
