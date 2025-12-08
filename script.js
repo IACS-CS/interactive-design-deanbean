@@ -349,6 +349,24 @@ menuButtons.forEach(function(button) {
     // STEP 2: Add the active state to THIS button (the one that was clicked)
     button.classList.add('active'); // add 'active' class to the clicked button
     
+    // AI-generated code starts here
+    // Student prompt was: make the title bounce once when you click a button
+    // STEP 3: Make the h1 title bounce once
+    var title = document.querySelector('h1'); // grab the <h1> element
+    if (title) {
+      // Remove the bounce-once class if it's already there (to reset the animation)
+      title.classList.remove('bounce-once');
+      // Force the browser to recalculate styles so the animation can restart
+      title.offsetHeight; // this line triggers a reflow
+      // Add the bounce-once class to trigger the single bounce animation
+      title.classList.add('bounce-once');
+      // Remove the bounce-once class after animation finishes so it can be triggered again
+      setTimeout(function() {
+        title.classList.remove('bounce-once');
+      }, 1400); // 1400ms matches the animation duration in CSS (drop and bounce animation)
+    }
+    // AI-generated code ends here
+    
   });
 });
 

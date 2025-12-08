@@ -50,18 +50,18 @@ h1 {
 	text-align: center;
 	margin: 0;
 	padding: 2rem 2rem 0 2rem;
-	/* Slow basketball bounce animation */
-	animation: basketball-bounce 2s ease-in-out infinite;
+	/* AI-generated code starts here */
+	/* Student prompt was: make title stationary on load, only bounce when button clicked */
+	/* Removed infinite animation - title is now stationary by default */
 	display: inline-block;
 	width: 100%;
 	line-height: 1; /* tighten line height so text sits closer to bottom */
-	/* AI-generated code starts here */
 	/* Student prompt was: make the title use Sigmar One font */
 	font-family: 'Sigmar One', cursive; /* apply Sigmar One font to the main heading */
 	font-size: 4rem; /* increase the title size to make it more prominent */
 	/* Student prompt was: make the text color use the basketball texture image */
 	background-image: url('basketballtexture.png'); /* apply the basketball texture */
-	background-size: cover; /* cover the entire text area */
+	background-size: 200px; /* make the texture smaller so it repeats and shows more detail */
 	background-position: center; /* center the basketball texture behind the text */
 	background-clip: text; /* clip the background to the text shape */
 	-webkit-background-clip: text; /* Safari/Chrome support */
@@ -80,6 +80,47 @@ h1 {
 	50% {
 		transform: translateY(-30px) scaleY(1) scaleX(1); /* normal shape in air */
 	}
+}
+
+/* Student prompt was: make the title bounce once when clicking a button */
+/* Student prompt was: make it start at top, drop down, bounce/squish, then bounce back up to normal position */
+/* Basketball drop animation - starts high, falls, bounces on ground */
+@keyframes basketball-bounce-once {
+	0% {
+		transform: translateY(-50px) scaleY(1) scaleX(1); /* start at top - ball held up */
+	}
+	20% {
+		transform: translateY(-50px) scaleY(1) scaleX(1); /* hold briefly at top */
+	}
+	40% {
+		transform: translateY(20px) scaleY(0.95) scaleX(1.03); /* falling fast toward ground */
+	}
+	50% {
+		transform: translateY(30px) scaleY(0.7) scaleX(1.2); /* hit ground - big squish! */
+	}
+	60% {
+		transform: translateY(-15px) scaleY(1.05) scaleX(0.97); /* bounce back up (first bounce) */
+	}
+	70% {
+		transform: translateY(10px) scaleY(0.85) scaleX(1.1); /* land again with smaller squish */
+	}
+	78% {
+		transform: translateY(-5px) scaleY(1.02) scaleX(0.99); /* tiny second bounce */
+	}
+	85% {
+		transform: translateY(2px) scaleY(0.95) scaleX(1.03); /* settle with micro squish */
+	}
+	92% {
+		transform: translateY(0) scaleY(1.01) scaleX(0.99); /* almost at rest */
+	}
+	100% {
+		transform: translateY(0) scaleY(1) scaleX(1); /* back to normal position - completely settled */
+	}
+}
+
+/* Class to trigger single bounce */
+h1.bounce-once {
+	animation: basketball-bounce-once 1.4s ease-in-out; /* smooth drop and bounce motion */
 }
 /* AI-generated code ends here */
 .court-image.show {
