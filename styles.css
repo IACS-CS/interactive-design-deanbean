@@ -1,12 +1,9 @@
-/* AI-generated code starts here
-	Added: import Bad Script from Google Fonts and apply as site font
-	Student-friendly: keeps things simple by setting the font-family
-	This was inserted by the AI assistant per user request.
-*/
+
 @import url('https://fonts.googleapis.com/css2?family=Bad+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Sono&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap');
 
 /* Apply the Spectral font to headings only.
 	 Using a fallback of serif for environments without the font.
@@ -58,6 +55,19 @@ h1 {
 	display: inline-block;
 	width: 100%;
 	line-height: 1; /* tighten line height so text sits closer to bottom */
+	/* AI-generated code starts here */
+	/* Student prompt was: make the title use Sigmar One font */
+	font-family: 'Sigmar One', cursive; /* apply Sigmar One font to the main heading */
+	font-size: 4rem; /* increase the title size to make it more prominent */
+	/* Student prompt was: make the text color use the basketball texture image */
+	background-image: url('basketballtexture.png'); /* apply the basketball texture */
+	background-size: cover; /* cover the entire text area */
+	background-position: center; /* center the basketball texture behind the text */
+	background-clip: text; /* clip the background to the text shape */
+	-webkit-background-clip: text; /* Safari/Chrome support */
+	color: transparent; /* make the text color transparent so texture shows through */
+	-webkit-text-fill-color: transparent; /* additional Safari/Chrome support */
+	/* AI-generated code ends here */
 }
 
 /* AI-generated code starts here */
@@ -281,6 +291,17 @@ h1 {
 	box-shadow: 0 6px 18px rgba(60,110,240,0.14);
 	border-color: #7fa7ff;
 }
+
+/* AI-generated code starts here */
+/* Student prompt was: Make menu buttons change color to white when clicked */
+/* Style for the active menu button */
+.court-left button.active {
+	color: white; /* makes the text white */
+	background-color: #8b5a3c; /* darker brown for contrast */
+	border-color: #6b4428; /* even darker border */
+	font-weight: 600; /* make text slightly bolder */
+}
+/* AI-generated code ends here */
 
 /* smaller muted description text inside menu if present */
 .court-left .menu-intro {

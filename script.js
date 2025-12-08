@@ -328,6 +328,31 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 // AI-generated code ends here
 
+// AI-generated code starts here
+// Student prompt was: Make menu buttons change color to white when clicked
+// to indicate current page, and reset other buttons back to normal
+
+// First, we grab all the menu buttons at once
+let menuButtons = document.querySelectorAll('.court-left button'); // select all buttons in the left menu
+
+// Now we loop through each button and set up a click listener
+menuButtons.forEach(function(button) {
+  // For each button, when it gets clicked...
+  button.addEventListener('click', function() {
+    
+    // STEP 1: Remove the active state from ALL buttons
+    // (This ensures only one button is highlighted at a time)
+    menuButtons.forEach(function(otherButton) {
+      otherButton.classList.remove('active'); // remove the 'active' class from every button
+    });
+    
+    // STEP 2: Add the active state to THIS button (the one that was clicked)
+    button.classList.add('active'); // add 'active' class to the clicked button
+    
+  });
+});
+
+// AI-generated code ends here
 
 
 
