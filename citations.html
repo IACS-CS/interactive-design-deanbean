@@ -13,14 +13,96 @@
   </head>
   <body>
     <h1>Sources &amp; Citations</h1>
+    
+    <h2>Project Template</h2>
     <ul>
       <li>Template: original project template from Mr. Hinkle.</li>
-      <li> used ai to help create the js code to add the image on click. </li>
-      <li> used copilot and gemini to create descriptions of positions and fix errors with layout </li>
-      <li> used copilot to fix delay with images loading on click</li>
-      <li>Used AI (Copilot) to: make menu hover to open, align layout, shrink image, set Spectral headings, center description, add description-only behavior for rules (Fouls/Techs/Positioning/Misc), fix button handler to show descriptions, add bouncing h1 animation and static line, unify menu header styles, and apply Animista image scale-up animation. (Date: 2025-12-04)</li>
-      <!-- List any other sources you used as you worked on 
-       the project, including giving credit for images, etc. -->
+    </ul>
+
+    <h2>AI Assistance Documentation</h2>
+    <p>
+      Throughout this project, I used GitHub Copilot to help generate code, debug issues, 
+      and refactor for best practices. Below is a comprehensive list of what AI helped with, 
+      how I modified the code, and my evaluation of the results.
+    </p>
+
+    <h3>Initial Development (Early December 2025)</h3>
+    <ul>
+      <li>Used AI to create the JavaScript code for displaying court images when buttons are clicked</li>
+      <li>Used Copilot and Gemini to generate descriptions of basketball positions and fix layout errors</li>
+      <li>Used Copilot to solve image loading delay issues by implementing preloading logic</li>
+      <li>Used AI to add hover behavior to dropdown menus for desktop users (Date: 2025-12-04)</li>
+    </ul>
+
+    <h3>Styling and Animation Features</h3>
+    <ul>
+      <li><strong>Button Active States:</strong> AI helped create JavaScript to change button colors when clicked, indicating the current selection</li>
+      <li><strong>Title Animation:</strong> AI generated the basketball bounce animation using CSS keyframes that makes the h1 title drop from the top and bounce/squish realistically</li>
+      <li><strong>Basketball Texture Background:</strong> AI helped apply basketballtexture.png as a background to the title using background-clip: text</li>
+      <li><strong>Content Animations:</strong> AI created basketball-themed animations (bounce-in for descriptions, pass effect for images) to match the site theme</li>
+      <li><strong>Font Integration:</strong> AI assisted with implementing Google Fonts (Sigmar One for title, Spectral for headings, Sono for buttons, Noto Sans Mono for descriptions)</li>
+    </ul>
+
+    <h3>Major Refactoring (December 2025)</h3>
+    <p>
+      Based on instructor feedback, I worked with AI to comprehensively refactor the entire project 
+      for a mastery-level grade. Here's what changed:
+    </p>
+
+    <h4>HTML Improvements</h4>
+    <ul>
+      <li><strong>Description Shortening:</strong> AI helped rewrite all 12 button data-desc attributes from essay-length paragraphs (10+ sentences) to concise 2-4 sentence descriptions that are easier to scan in the UI</li>
+      <li><strong>Evaluation:</strong> I reviewed each shortened description to ensure it retained the key information while being more user-friendly. For example, the Fouls description went from 10+ sentences to just 3 focused sentences about personal, technical, and flagrant fouls.</li>
+    </ul>
+
+    <h4>CSS Fixes and Optimizations</h4>
+    <ul>
+      <li><strong>Contrast Improvements:</strong> AI helped identify and fix accessibility issues by darkening text from #1a1a1a to #0f1419 and lightening backgrounds to #e5b89a for better readability</li>
+      <li><strong>Media Query Repair:</strong> AI located a critical bug at line 252 where a stray closing brace was breaking the entire responsive layout. Fixed by properly wrapping all mobile styles in the @media query block.</li>
+      <li><strong>CSS Deduplication:</strong> AI identified repeated rules (.court-caption defined twice, .court-image.show defined twice) and consolidated them to eliminate redundancy</li>
+      <li><strong>Animation Simplification:</strong> AI helped unify conflicting animations (bounce, pass, slide, scale) into a single basketball bounce theme that's cohesive and professional</li>
+      <li><strong>Evaluation:</strong> I tested the contrast changes with browser dev tools to verify improved readability. I tested responsive layout on mobile to confirm the media query fix resolved the broken mobile view. The simplified animations now feel polished instead of chaotic.</li>
+    </ul>
+
+    <h4>JavaScript Refactoring</h4>
+    <ul>
+      <li><strong>Function Extraction:</strong> AI helped refactor repetitive code by creating helper functions:
+        <ul>
+          <li><code>activateButton(btn)</code> - handles highlighting the clicked button</li>
+          <li><code>applyTitleBounce()</code> - triggers the title bounce animation</li>
+          <li><code>showDescriptionOnly(desc)</code> - displays text-only for rule buttons</li>
+          <li><code>showImageMode(file, desc)</code> - displays court image with description</li>
+          <li><code>isRuleButton(btn)</code> - checks if button is a text-only rule button</li>
+          <li><code>getImageFile(btn)</code> - determines which court image to display</li>
+        </ul>
+      </li>
+      <li><strong>DOMContentLoaded Consolidation:</strong> AI helped merge 3 separate initialization blocks into a single unified setup function, reducing code from 379 lines to 230 lines</li>
+      <li><strong>Mobile Support:</strong> AI added click fallback to dropdowns so they work on both hover (desktop) and click (mobile/touch devices)</li>
+      <li><strong>Preloading Simplification:</strong> AI removed the complex 60-line preloading logic since modern browsers and the simple image set load quickly without it</li>
+      <li><strong>Evaluation:</strong> The refactored code is much easier to read and understand. Each function has a clear purpose with descriptive comments. I tested the mobile dropdown functionality on touch devices to confirm it works correctly. The simplified code maintained all original functionality while being more maintainable.</li>
+    </ul>
+
+    <h3>What I Modified from AI Suggestions</h3>
+    <ul>
+      <li>Adjusted animation timing values to feel more natural (e.g., changed bounce duration to match basketball physics)</li>
+      <li>Modified color values slightly to ensure they matched the basketball theme while maintaining accessibility</li>
+      <li>Kept some of the original button class names for consistency with existing HTML structure</li>
+      <li>Reviewed and edited all AI-generated descriptions to ensure accuracy about basketball rules</li>
+      <li>Added more detailed code comments to explain what each part does for learning purposes</li>
+    </ul>
+
+    <h3>Evaluation of AI Code Quality</h3>
+    <ul>
+      <li><strong>Strengths:</strong> AI generated clean, well-commented vanilla JavaScript that was easy to understand. The refactored code follows beginner-friendly patterns using querySelector and classList. Animations were smooth and professional.</li>
+      <li><strong>Testing:</strong> I tested all functionality across different browsers and devices to ensure the AI code worked correctly. Found and fixed the defensive court image typo that AI's error handling caught.</li>
+      <li><strong>Learning:</strong> Working with AI helped me understand event delegation, CSS animations, and how to organize code into reusable functions. I can now explain what each part of the code does.</li>
+    </ul>
+
+    <h2>Additional Resources</h2>
+    <ul>
+      <li>Basketball court images: created custom diagrams showing player positions</li>
+      <li>Basketball texture: basketballtexture.png for title background effect</li>
+      <li>Google Fonts: Sigmar One, Spectral, Sono, Noto Sans Mono</li>
     </ul>
   </body>
 </html>
